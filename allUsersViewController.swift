@@ -76,12 +76,13 @@ class allUsersViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         print("test")
-        performSegue(withIdentifier: "selectUser", sender: nil)
+        performSegue(withIdentifier: "OpenChat", sender: nil)
 //        let chatLog = chatLogController()
 //        navigationController?.pushViewController(chatLog, animated: true)
         
         
     }
+    
     
     
 
