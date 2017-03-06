@@ -11,7 +11,14 @@ import UIKit
 import Firebase
 
 
+struct messageStruct {
+    let fromID : String!
+    let toID : String!
+    let text : String!
+}
+
 struct users {
+    let userId : String!
     let name : String!
     let imageUrl : String!
     let email : String!
