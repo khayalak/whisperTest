@@ -11,7 +11,14 @@ import UIKit
 import Firebase
 
 
+struct messageStruct {
+    let fromID : String!
+    let toID : String!
+    let text : String!
+}
+
 struct users {
+    let userId : String!
     let name : String!
     let imageUrl : String!
     let email : String!
@@ -54,6 +61,12 @@ extension UIViewController {
     
     func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+// retrun 13 digit integer timestamp, just use timestamp = timeStamp() anywhere in the app
+    func timeStamp() ->Int {
+        let time = Int(Date().timeIntervalSince1970 * 1000)
+        return time
     }
     
     

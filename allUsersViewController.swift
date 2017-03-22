@@ -15,6 +15,7 @@ class allUsersViewController: UIViewController, UITableViewDataSource, UITableVi
     var userList = [users] ()
     var lastLogIn = ""
     var lastSeenTime = ""
+    var toID = "Here"
     
     @IBOutlet weak var userListTable: UITableView!
     @IBAction func didClickBack(_ sender: Any) {
@@ -22,7 +23,6 @@ class allUsersViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.hideKeyboardWhenTappedAround()
         fetchAllUsers()
         // Do any additional setup after loading the view.
     }
@@ -37,12 +37,13 @@ class allUsersViewController: UIViewController, UITableViewDataSource, UITableVi
         let databaseRef = FIRDatabase.database().reference()
         databaseRef.child("users").queryOrderedByKey().observe(.childAdded, with: { (snapshot) in
             let snapshotValue = snapshot.value as? NSDictionary
+            let userID = snapshot.key as? String
             let uName = snapshotValue?["name"] as? String
             let UImageUrl = snapshotValue?["image"] as? String
             let UEmail = snapshotValue?["email"] as? String
             let lastSignIn = snapshotValue?["lastSignIn"] as? String
             let lastSeenTime = snapshotValue?["lastSeenTime"] as? String
-            self.userList.insert(users(name: uName, imageUrl: UImageUrl, email: UEmail, lastSignIn: lastSignIn, lastSeenTime : lastSeenTime), at: 0)
+            self.userList.insert(users(userId: userID, name: uName, imageUrl: UImageUrl, email: UEmail,  lastSignIn: lastSignIn, lastSeenTime : lastSeenTime), at: 0)
             self.userListTable.reloadData()
         })
     }
@@ -74,16 +75,19 @@ class allUsersViewController: UIViewController, UITableViewDataSource, UITableVi
 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        print("test")
+        toID = self.userList[indexPath.row].userId
         performSegue(withIdentifier: "OpenChat", sender: nil)
-//        let chatLog = chatLogController()
-//        navigationController?.pushViewController(chatLog, animated: true)
-        
         
     }
     
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+                if (segue.identifier == "OpenChat") {
+                    let dest = segue.destination as? NewMessageController
+                    dest?.toID = self.toID
+                }
+    }
     
+
 
 }

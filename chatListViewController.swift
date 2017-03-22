@@ -35,15 +35,20 @@ class chatListViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        chechIfSignIn()
         findUserName()
-        self.hideKeyboardWhenTappedAround()
+//        self.hideKeyboardWhenTappedAround()
         // Do any additional setup after loading the view.
     }
     
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func chechIfSignIn(){
+        if FIRAuth.auth()?.currentUser != nil {
+            // User is signed in.
+        } else {
+            // No user is signed in.
+            self.performSegue(withIdentifier: "home", sender: self)
+        }
     }
     
     func findUserName(){
