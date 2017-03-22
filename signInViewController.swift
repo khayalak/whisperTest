@@ -34,7 +34,6 @@ class signInViewController: UIViewController {
     }
     
     @IBAction func didClickSignIn(_ sender: Any) {
-        
         // handule sign in function
         let email = self.email.text
         let password = self.password.text

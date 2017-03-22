@@ -63,6 +63,12 @@ extension UIViewController {
         view.endEditing(true)
     }
     
+// retrun 13 digit integer timestamp, just use timestamp = timeStamp() anywhere in the app
+    func timeStamp() ->Int {
+        let time = Int(Date().timeIntervalSince1970 * 1000)
+        return time
+    }
+    
     
 // popup messsage and dismiss
     

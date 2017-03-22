@@ -37,7 +37,7 @@ class chatListViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
 //        chechIfSignIn()
         findUserName()
-        self.hideKeyboardWhenTappedAround()
+//        self.hideKeyboardWhenTappedAround()
         // Do any additional setup after loading the view.
     }
     

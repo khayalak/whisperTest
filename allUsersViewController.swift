@@ -76,7 +76,6 @@ class allUsersViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         toID = self.userList[indexPath.row].userId
-        
         performSegue(withIdentifier: "OpenChat", sender: nil)
         
     }

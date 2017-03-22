@@ -20,7 +20,7 @@ class NewMessageController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @IBAction func didClickBack(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        performSegue(withIdentifier: "ChatList", sender: nil)
     }
 
     let userID = FIRAuth.auth()?.currentUser?.uid
@@ -44,9 +44,9 @@ class NewMessageController: UIViewController, UITableViewDataSource, UITableView
         let databaseRef = FIRDatabase.database().reference()
         databaseRef.child("message").queryOrderedByKey().observe(.childAdded, with: { (snapshot) in
             let snapshotValue = snapshot.value as? NSDictionary
-            let fromID = snapshotValue?["fromID"] as? String
-            let text = snapshotValue?["text"] as? String
-            let toID = snapshotValue?["toID"] as? String
+            let fromID = snapshotValue?["sender"] as? String
+            let text = snapshotValue?["content"] as? String
+            let toID = snapshotValue?["receiver"] as? String
             self.messagesList.insert(messageStruct(fromID: fromID, toID: toID, text: text), at: 0)
             self.messageTable.reloadData()
         })
@@ -61,8 +61,9 @@ class NewMessageController: UIViewController, UITableViewDataSource, UITableView
         }else{
         // send message to server
             let message = self.textField.text
-            let info = ["fromID" : userID, "text" : message, "toID" : toID]
-            FIRDatabase.database().reference().child("message").childByAutoId().setValue(info)
+            let timeStamp = self.timeStamp()
+            let info = ["sender" : userID,  "receiver" : toID, "content" : message, "typeOfContent" : "text", "timestamp" : timeStamp] as [String : Any]
+            FIRDatabase.database().reference().child("messages").childByAutoId().setValue(info)
         }
         textField.text = ""
     }
